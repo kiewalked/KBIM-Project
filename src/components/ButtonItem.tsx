@@ -22,6 +22,8 @@ interface Props {
     children?: React.ReactNode
     imageContent?: Object
     textContent?: React.ReactNode
+    exteriorContent?: React.ReactNode
+    interiorContent?: React.ReactNode
     date?: string;
     key?: Number
 }
@@ -36,6 +38,8 @@ const Item: React.FC<Props> = ({
     children,
     imageContent,
     textContent,
+    exteriorContent,
+    interiorContent,
     date,
     key,
 }) => {
@@ -57,13 +61,12 @@ const Item: React.FC<Props> = ({
           <HStack space={4} alignItems='center'>
               {icon != null && <Foundation name={icon} size={25}></Foundation>}
               <Text style={styles.title}>{title}</Text>
-              {children != null && children}
+              {exteriorContent != null && exteriorContent}
           </HStack>
       </Button>
       <Collapsible collapsed={collapsedState} align="top">
         <View bg='gray.200' rounded="md" w="98%" alignSelf="center" zIndex="-999" padding={2} minHeight={(imageContent !== undefined) ? "400" : "0"}>
-          {imageContent != null && <Image source={imageContent} style={StyleSheet.absoluteFill} resizeMode="contain" alt='camera'></Image>}
-          {textContent != null && textContent}
+            {interiorContent != null && interiorContent}
         </View>
       </Collapsible>
     </View>

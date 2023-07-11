@@ -1,7 +1,7 @@
 import { StackScreenProps } from '@react-navigation/stack';
 import {Container, NativeBaseProvider, Box, VStack, Center, View, Text, Flex, Button, HStack, ScrollView} from 'native-base';
 import React, { useCallback, useEffect, useState } from 'react';
-import { Linking, StyleSheet } from 'react-native';
+import { Image, Linking, StyleSheet } from 'react-native';
 
 import { Camera, CameraPermissionStatus, useCameraDevices } from 'react-native-vision-camera'
 import ButtonItem from '../../../components/ButtonItem';
@@ -42,25 +42,39 @@ const DietScreen = ( { route, navigation }:Props ) => {
         setCameraPermission(permission);
       }, []);
   
+    const imageContent0 = <Image source={dietPictures[0]} style={StyleSheet.absoluteFill} resizeMode="contain" alt='camera'></Image>
+    const imageContent1 = <Image source={dietPictures[1]} style={StyleSheet.absoluteFill} resizeMode="contain" alt='camera'></Image>
+    const imageContent2 = <Image source={dietPictures[2]} style={StyleSheet.absoluteFill} resizeMode="contain" alt='camera'></Image>
+
+    const exteriorContent0 = 
+    <HStack space={4} alignItems='center'>
+        <Text style={styles.title}>Breakfast</Text>
+        <Button onPress={() => openCamera(0)}>Start</Button>
+    </HStack>
+
+    const exteriorContent1 = 
+    <HStack space={4} alignItems='center'>
+        <Text style={styles.title}>Lunch</Text>
+      <Button onPress={() => openCamera(1)}>Start</Button>
+    </HStack>
+
+    const exteriorContent2 = 
+    <HStack space={4} alignItems='center'>
+        <Text style={styles.title}>Dinner</Text>
+        <Button onPress={() => openCamera(2)}>Start</Button>
+    </HStack>
+
+
+
     return (
       <ScrollView>
         <VStack marginTop={10} alignItems={'center'} space={10}>
-          <ButtonItem index={0} imageContent={dietPictures[0]}>
-            <Text style={styles.title}>Breakfast</Text>
-            <Button onPress={() => openCamera(0)}>Start</Button>
-          </ButtonItem>
-          <ButtonItem index={1} imageContent={dietPictures[1]}>
-            <Text style={styles.title}>Lunch</Text>
-            <Button onPress={() => openCamera(1)}>Start</Button>
-          </ButtonItem>
-          <ButtonItem index={2} imageContent={dietPictures[2]}>
-            <Text style={styles.title}>Dinner</Text>
-            <Button onPress={() => openCamera(2)}>Start</Button>
-          </ButtonItem>
-          <ButtonItem>
+          <ButtonItem index={0} interiorContent={imageContent0} exteriorContent={exteriorContent0}/>
+          <ButtonItem index={1} imageContent={dietPictures[1]} exteriorContent={exteriorContent1} />
+          <ButtonItem index={2} imageContent={dietPictures[2]} exteriorContent={exteriorContent2} />
+          {/* <ButtonItem>
             <Text style={styles.title} color='blue.400'>+ Add Meal</Text>
-          </ButtonItem>
-          <Text>{dietPictures.length}</Text>
+          </ButtonItem> */}
         </VStack>
       </ScrollView>
     )

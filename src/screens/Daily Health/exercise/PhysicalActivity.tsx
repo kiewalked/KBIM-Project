@@ -5,7 +5,7 @@ import { selectCount } from '../../../redux/counterSlice';
 import { Routes } from '../../../Routes';
 import { StackScreenProps } from '@react-navigation/stack';
 import { selectExercise } from '../../../redux/exerciseSlice';
-import { FlatList } from 'react-native';
+import { FlatList, StyleSheet } from 'react-native';
 import ButtonItem from '../../../components/ButtonItem';
 import { verifyDateExists } from '../../../redux/dateSlice';
 
@@ -26,8 +26,10 @@ const PhysicalActivityScreen = ( { route, navigation }:Props) => {
                 <Text textAlign='center'>You exercised for {exercises[i].time} minutes at a {exercises[i].intensity} intensity. Well done!</Text>
                 {/* <Button>Edit</Button> */}
             </View>;
+        const exerciseTitle = 
+            <Text style={styles.title}>{exercises[i].title}</Text>
         exerciseItems.push(
-            <ButtonItem textContent={exerciseInfo} title={exercises[i].title} key={i}/>
+            <ButtonItem interiorContent={exerciseInfo} exteriorContent={exerciseTitle} key={i}/>
         );
     }
     return (
@@ -39,5 +41,24 @@ const PhysicalActivityScreen = ( { route, navigation }:Props) => {
         </VStack>
         );
 }
+
+const styles = StyleSheet.create({
+    item: {
+      shadowColor: "#000",
+      shadowOffset: {
+          width: 0,
+          height: 2,
+      },
+      shadowOpacity: 0.23,
+      shadowRadius: 2.62,
+  
+      elevation: 4,
+    },
+    title: {
+      fontFamily: "Arial", 
+      fontSize: 20,
+      textAlignVertical: 'center'
+    },
+  });  
 
 export default PhysicalActivityScreen;
