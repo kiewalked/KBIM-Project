@@ -3,21 +3,28 @@ import { Platform, StyleSheet } from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import notifee, { AuthorizationStatus, TimestampTrigger, TriggerType, TimeUnit, RepeatFrequency } from '@notifee/react-native';
 import { useState } from 'react';
-import DateTimePicker, { DateTimePickerEvent } from '@react-native-community/datetimepicker'
+import DatePicker from 'react-native-date-picker'
+import { useDispatch, useSelector } from 'react-redux';
 
 const ExportScreen = () => {
     const [ notificationsEnabled, setNotificationsEnabled ] = useState(false)
     const [ startDate, setStartDate ] = useState(new Date());
+    const [ startOpen, setStartOpen ] = useState(false)
     const [ endDate, setEndDate ] = useState(new Date());
-    const [ clinician, setClinician ] = useState('');
+    const [ endOpen, setEndOpen ] = useState(false)
+    const history = useSelector(state => state.dailyHealth.history)
 
-    const onChangeDate = (event:DateTimePickerEvent, selectedDate:Date|undefined, start:boolean) => {
-        if (selectedDate) {
-            const currentDate = selectedDate;
-            console.log("date: ", currentDate)
-            start ? setStartDate(currentDate) : setEndDate(currentDate)
+    const [ clinician, setClinician ] = useState('');
+    
+
+    const exportData = () => {
+        console.log(history)
+        for (let day in history) {
+            if (startDate < Date.parse(day) && endDate > Date.parse(day)) {
+                // process information in history and add to pdf
+            }
         }
-      };
+    }
   
   
     return (
@@ -36,26 +43,40 @@ const ExportScreen = () => {
                 <Box>
                     <HStack alignItems='center' space={4}>
                         <Text style={styles.text} flex={6}>Start Date</Text>
-                        <DateTimePicker
-                            testID="startDatePicker"
-                            value={startDate}
-                            mode='date'
-                            onChange={(event:DateTimePickerEvent, selectedDate:Date|undefined) => onChangeDate(event, selectedDate, false)}
-
-                        />
+                        <Button flex={4} padding='1' paddingLeft='0' paddingRight='1' m onPress={() => {setStartOpen(true)}}>{startDate.toDateString()}</Button>
+                        <DatePicker 
+                        modal
+                        open={startOpen}
+                        date={startDate}
+                        onConfirm={(date) => {
+                            setStartOpen(false)
+                            setStartDate(date)
+                        }}
+                        onCancel={() => {
+                            setStartOpen(false)
+                        }}
+                        mode="date"/>
                     </HStack>
                 </Box>
                 <Box>
-                    <HStack alignItems='center' space={4}>
+                    <HStack alignItems='center' space={4} >
                         <Text style={styles.text} flex={6}>End Date</Text>
-                        <DateTimePicker
-                            testID="endDatePicker"
-                            value={endDate}
-                            onChange={(event:DateTimePickerEvent, selectedDate:Date|undefined) => onChangeDate(event, selectedDate, true)}
-                        />
+                        <Button flex={4} padding='1' paddingLeft='0' paddingRight='1' onPress={() => {setEndOpen(true)}}>{endDate.toDateString()}</Button>
+                        <DatePicker 
+                        modal
+                        open={endOpen}
+                        date={endDate}
+                        onConfirm={(date) => {
+                            setEndOpen(false)
+                            setEndDate(date)
+                        }}
+                        onCancel={() => {
+                            setEndOpen(false)
+                        }}
+                        mode="date"/>
                     </HStack>
                 </Box>
-                <Button>Export</Button>
+                <Button onPress={() => {exportData()}}>Export</Button>
             </VStack>
         </View>
     );

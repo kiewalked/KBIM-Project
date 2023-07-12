@@ -3,7 +3,7 @@ import { Platform, StyleSheet } from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import notifee, { AuthorizationStatus, TimestampTrigger, TriggerType, TimeUnit, RepeatFrequency } from '@notifee/react-native';
 import { useState } from 'react';
-import DateTimePicker from '@react-native-community/datetimepicker'
+import DatePicker from 'react-native-date-picker'
 
 const NotificationSettingsScreen = () => {
     const [ notificationsEnabled, setNotificationsEnabled ]  = useState(false)
