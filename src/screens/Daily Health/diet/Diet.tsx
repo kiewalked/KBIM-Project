@@ -1,7 +1,7 @@
 import { StackScreenProps } from '@react-navigation/stack';
-import {Container, NativeBaseProvider, Box, VStack, Center, View, Text, Flex, Button, HStack, ScrollView} from 'native-base';
+import {Image, Container, NativeBaseProvider, Box, VStack, Center, View, Text, Flex, Button, HStack, ScrollView} from 'native-base';
 import React, { useCallback, useEffect, useState } from 'react';
-import { Image, Linking, StyleSheet } from 'react-native';
+import { Linking, StyleSheet } from 'react-native';
 
 import { Camera, CameraPermissionStatus, useCameraDevices } from 'react-native-vision-camera'
 import ButtonItem from '../../../components/ButtonItem';
@@ -42,9 +42,9 @@ const DietScreen = ( { route, navigation }:Props ) => {
         setCameraPermission(permission);
       }, []);
   
-    const imageContent0 = <Image source={dietPictures[0]} style={StyleSheet.absoluteFill} resizeMode="contain" alt='camera'></Image>
-    const imageContent1 = <Image source={dietPictures[1]} style={StyleSheet.absoluteFill} resizeMode="contain" alt='camera'></Image>
-    const imageContent2 = <Image source={dietPictures[2]} style={StyleSheet.absoluteFill} resizeMode="contain" alt='camera'></Image>
+    const imageContent0 = <Image source={dietPictures[0]} style={StyleSheet.absoluteFill} alt='camera'></Image>
+    const imageContent1 = <Image source={dietPictures[1]} style={StyleSheet.absoluteFill} alt='camera'></Image>
+    const imageContent2 = <Image source={dietPictures[2]} style={StyleSheet.absoluteFill} alt='camera'></Image>
 
     const exteriorContent0 = 
     <HStack space={4} alignItems='center'>
@@ -69,9 +69,9 @@ const DietScreen = ( { route, navigation }:Props ) => {
     return (
       <ScrollView>
         <VStack marginTop={10} alignItems={'center'} space={10}>
-          <ButtonItem index={0} interiorContent={imageContent0} exteriorContent={exteriorContent0}/>
-          <ButtonItem index={1} imageContent={dietPictures[1]} exteriorContent={exteriorContent1} />
-          <ButtonItem index={2} imageContent={dietPictures[2]} exteriorContent={exteriorContent2} />
+          <ButtonItem imageContent={true} index={0} interiorContent={imageContent0} exteriorContent={exteriorContent0}/>
+          <ButtonItem imageContent={true} index={1} interiorContent={imageContent1} exteriorContent={exteriorContent1} />
+          <ButtonItem imageContent={true} index={2} interiorContent={imageContent2} exteriorContent={exteriorContent2} />
           {/* <ButtonItem>
             <Text style={styles.title} color='blue.400'>+ Add Meal</Text>
           </ButtonItem> */}

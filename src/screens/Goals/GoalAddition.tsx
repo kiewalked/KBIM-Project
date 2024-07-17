@@ -20,7 +20,7 @@ Smoking requirements: number of cigarettes
 import { Routes } from '../../Routes';
 import { StackScreenProps } from '@react-navigation/stack';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { addExerciseGoal, addSleepGoal, addDietGoal, addMiscGoal } from '../../redux/goalSlice';
+import { addGoal, addMiscGoal /*addExerciseGoal, addSleepGoal, addDietGoal*/ } from '../../redux/goalSlice';
 
 type Props = StackScreenProps<Routes, 'GoalAddition'>;
 
@@ -60,15 +60,29 @@ const GoalAdditionScreen = ( { route, navigation }:Props) => {
         } else {
             frequency = "monthly"
         }
+        let categoryObj = {}
         switch (category) {
             case "exercise":
-                daily ? dispatch(addExerciseGoal(frequency, dayArray, null, exerciseType, goalTime, description)) : dispatch(addExerciseGoal(frequency, null, frequencyNum , exerciseType, goalTime, description))
-                break
+                categoryObj = {
+                    kind: "exercise",
+                    intensity: exerciseType,
+                    measurement: "minutes"
+                }
+                daily ? dispatch(addGoal(frequency, dayArray, null, goalTime, category, categoryObj, description)) : dispatch(addGoal(frequency, null, frequencyNum, goalTime, category, categoryObj, description))
+                break;
             case "sleep":
-                daily ? dispatch(addSleepGoal(frequency, dayArray, null, goalTime, description)) : dispatch(addSleepGoal(frequency, null, frequencyNum, goalTime, description))
-                break
+                categoryObj = {
+                    kind: "sleep",
+                    measurement: "hours"
+                }
+                daily ? dispatch(addGoal(frequency, dayArray, null, goalTime, category, categoryObj, description)) : dispatch(addGoal(frequency, null, frequencyNum, goalTime, category, categoryObj, description))
+                break;
             case "diet":
-                daily ? dispatch(addDietGoal(frequency, dayArray, null, goalTime, description)) : dispatch(addDietGoal(frequency, null, frequencyNum, goalTime, description))
+                categoryObj = {
+                    kind: "diet",
+                    measurement: "meals"
+                }
+                daily ? dispatch(addGoal(frequency, dayArray, null, goalTime, category, categoryObj, description)) : dispatch(addGoal(frequency, null, frequencyNum, goalTime, category, categoryObj, description))
                 break
             case "misc":
                 dispatch(addMiscGoal(description))
@@ -292,7 +306,7 @@ const GoalAdditionScreen = ( { route, navigation }:Props) => {
                 </Box>    
             }
 
-            { category === "miscellaneous" && 
+            { category === "misc" && 
                 <Box alignItems="center">
                     <Box minW="90%" maxW="90%" rounded="lg" overflow="hidden" borderColor="coolGray.200" borderWidth="1" 
                     _dark={{

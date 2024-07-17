@@ -20,7 +20,7 @@ interface Props {
     index?: Number;
     route?: string;
     children?: React.ReactNode
-    imageContent?: Object
+    imageContent?: boolean
     textContent?: React.ReactNode
     exteriorContent?: React.ReactNode
     interiorContent?: React.ReactNode
@@ -65,7 +65,7 @@ const Item: React.FC<Props> = ({
           </HStack>
       </Button>
       <Collapsible collapsed={collapsedState} align="top">
-        <View bg='gray.200' rounded="md" w="98%" alignSelf="center" zIndex="-999" padding={2} minHeight={(imageContent !== undefined) ? "400" : "0"}>
+        <View bg='gray.200' rounded="md" w="98%" alignSelf="center" zIndex="-999" padding={2} minHeight={(imageContent) ? "400" : "0"}>
             {interiorContent != null && interiorContent}
         </View>
       </Collapsible>
@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
     elevation: 4,
   },
   title: {
-    fontFamily: "Arial", 
+    fontFamily: "Montserrat",
     fontSize: 20,
     textAlignVertical: 'center'
   },

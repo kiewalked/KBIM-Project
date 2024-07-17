@@ -4,11 +4,18 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import notifee, { AuthorizationStatus, TimestampTrigger, TriggerType, TimeUnit, RepeatFrequency } from '@notifee/react-native';
 import { useState } from 'react';
 import DatePicker from 'react-native-date-picker'
+import { withSafeAreaInsets } from 'react-native-safe-area-context';
+import { useSelector, useDispatch } from 'react-redux';
+import { toggleNotifications, changeNotificationTime } from '../../../redux/notificationSlice';
 
 const NotificationSettingsScreen = () => {
-    const [ notificationsEnabled, setNotificationsEnabled ]  = useState(false)
+    const notificationState = useSelector(state => state.notifications)    
+    const notificationsEnabled = notificationState.notificationsEnabled
+    const notificationTime = notificationState.notificationTime
+    const dispatch = useDispatch()
     const [date, setDate] = useState(new Date());
     const [show, setShow] = useState(false);
+    const [open, setOpen] = useState(false);
   
     const onChangeNotificationTime = (event, selectedDate) => {
       const currentDate = selectedDate;
@@ -16,13 +23,18 @@ const NotificationSettingsScreen = () => {
       setDate(currentDate);
       scheduleNotification();
     };
+
+    const convertHoursToDate = () =>           {
+        console.log(notificationTime)
+    }
       
     const enableNotifications = (val) => {
         if (val) {
-            setNotificationsEnabled(true);
+            dispatch(toggleNotifications(true));
             requestUserPermission();
         } 
-        else setNotificationsEnabled(false);
+        else dispatch(toggleNotifications(false));
+        ;
     }
 
     async function scheduleNotification() {
@@ -82,14 +94,23 @@ const NotificationSettingsScreen = () => {
                 { notificationsEnabled && 
                     <Box>
                         <HStack alignItems='center' space={4}>
-                            <Text style={styles.text} flex={6}>Select Notification Time</Text>
-                            <DateTimePicker
-                                testID="dateTimePicker"
-                                value={date}
-                                mode='time'
-                                is24Hour={true}
-                                onChange={onChangeNotificationTime}
-                            />
+                            <Text style={styles.text} flex={5}>Select Notification Time</Text>
+                            <Button flex={1} onPress={() => setOpen(true)}>
+                                <Text paddingLeft="0" fontSize="md" color="white">{date.toTimeString().split(" ")[0].slice(0,-3)}</Text>
+                            </Button>
+                            <DatePicker 
+                            modal
+                            open={open}
+                            date={date}
+                            onConfirm={(date) => {
+                                setOpen(false)
+                                setDate(date)
+                                scheduleNotification();
+                            }}
+                            onCancel={() => {
+                                setOpen(false)
+                            }}
+                            mode="time"/>
                         </HStack>
                     </Box>
                 }
@@ -101,7 +122,7 @@ const NotificationSettingsScreen = () => {
 
 const styles = StyleSheet.create({
     text: {
-      fontSize: 16
+      fontSize: 16,
     },
 });  
 

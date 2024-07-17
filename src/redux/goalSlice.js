@@ -6,6 +6,27 @@ export const goalSlice = createSlice({
     // goal object needs to contain:
     /*
     goal: {
+        frequency: daily | weekly | monthly
+        freqDays: frequency == daily ? [bool] : null
+        freqCount: frequency != daily ? Number : null
+        quantity: 60
+        description: String
+        category: exercise: {
+                    intensity: light | moderate | vigorous
+                    measurement: minutes | hours
+                }
+                | sleep: {
+                    measurement: minutes | hours
+                }
+                | diet: {
+                    measurement: meals | water | standard beverages (alcohol)
+                }
+                | smoking: {
+                    measurement: cigarettes | puffs
+                }
+
+    }
+    goal: {
         exercise: [
             frequency: daily | weekly | monthly
             freqDays: [bool]
@@ -20,7 +41,7 @@ export const goalSlice = createSlice({
             exerciseType: light | moderate | vigorous
             goalTime: Number
             description: String
-        ],
+        ],y
         diet: [
 
         ],
@@ -30,116 +51,166 @@ export const goalSlice = createSlice({
     }
     */
     initialState: {
-      goals: {
-        exercise: [],
-        sleep: [],
-        diet: [],
-        misc: []
-      },
+        goals: [
+    
+        ],
     },
     reducers: {
-        addExerciseGoal: {
+        addGoal: {
             reducer(state, action) {
-                state.goals.exercise.push(action.payload)
+                state.goals.push(action.payload)
                 console.log(action.payload)
             },
-            prepare(frequency, freqDays, freqCount, exerciseType, goalTime, description) {
+            prepare(frequency, freqDays, freqCount, quantity, category, categoryObj, description) {
                 let exerciseObj = {}
                 if (frequency === 'daily') {
-                    exerciseObj = {
-                        frequency: frequency,
-                        freqDays: freqDays,
-                        exerciseType: exerciseType,
-                        goalTime: goalTime,
-                        description: description
-                    }
-                } else {
-                    exerciseObj = {
-                        frequency: frequency,
-                        freqCount: freqCount,
-                        exerciseType: exerciseType,
-                        goalTime: goalTime,
-                        description: description
-                    }
-                    }
                     return {
                         payload: {
-                            exerciseObj
+                            frequency: frequency,
+                            freqDays: freqDays,
+                            quantity: quantity,
+                            description: description,
+                            category: category,
+                            categoryObj: categoryObj
                         }
                     }
-            }
-        },
-        addSleepGoal: {
-            reducer(state, action) {
-                state.goals.sleep.push(action.payload)
-            },
-            prepare(frequency, freqCount, goalTime, description) {
-            if (frequency === 'daily') {
-                const sleepObj = {
-                    frequency: frequency,
-                    freqDays: freqDays,
-                    goalTime: goalTime,
-                    description: description
-                }
-            } else {
-                const sleepObj = {
-                    frequency: frequency,
-                    freqCount: freqCount,
-                    goalTime: goalTime,
-                    description: description
-                }
-            }
-                return {
-                    payload: {
-                        sleepObj
-                    }
-                }
-            }
-        },
-        addDietGoal: {
-            reducer(state, action) {
-                state.goals.diet.push(action.payload)
-            },
-            prepare(frequency, freqCount, goalMeals, description) {
-                if (frequency === 'daily') {
-                    const dietObj = {
-                        frequency: frequency,
-                        freqDays: freqDays,
-                        goalTime: goalTime,
-                        description: description
-                    }
                 } else {
-                    const dietObj = {
-                        frequency: frequency,
-                        freqCount: freqCount,
-                        goalTime: goalTime,
-                        description: description
-                    }
-                }
                     return {
-                    payload: {
-                        dietObj
+                        payload: {
+                            frequency: frequency,
+                            freqCount: freqCount,
+                            quantity: quantity,
+                            description: description,
+                            category: category,
+                            categoryObj: categoryObj
+                        }
                     }
                 }
             }
         },
+        // addExerciseGoal: {
+        //     reducer(state, action) {
+        //         state.goals.push(action.payload)
+        //         console.log(action.payload)
+        //     },
+        //     prepare(frequency, freqDays, freqCount, exerciseType, goalTime, description) {
+        //         let exerciseObj = {}
+        //         if (frequency === 'daily') {
+        //             return {
+        //                 payload: {
+        //                     frequency: frequency,
+        //                     freqDays: freqDays,
+        //                     quantity: goalTime,
+        //                     description: description,
+        //                     category: "exercise",
+        //                     categoryObj: {
+        //                         intensity: exerciseType,
+        //                         measurement: "minutes"
+        //                     }
+        //                 }
+        //             }
+        //         } else {
+        //             return {
+        //                 payload: {
+        //                     frequency: frequency,
+        //                     freqCount: freqCount,
+        //                     quantity: goalTime,
+        //                     description: description,
+        //                     category: "exercise",
+        //                     categoryObj: {
+        //                         intensity: exerciseType,
+        //                         measurement: "minutes"
+        //                     }
+        //                 }
+        //             }
+        //         }
+        //     }
+        // },
+        // addSleepGoal: {
+        //     reducer(state, action) {
+        //         state.goals.push(action.payload)
+        //     },
+        //     prepare(frequency, freqCount, goalTime, description) {
+        //         if (frequency === 'daily') {
+        //             return {
+        //                 payload: {
+        //                     frequency: frequency,
+        //                     freqCount: freqCount,
+        //                     quantity: goalTime,
+        //                     description: description,
+        //                     category: "sleep",
+        //                     categoryObj: {
+        //                         measurement: "hours"
+        //                     }
+        //                 }
+        //             }
+        //         } else {
+        //             return {
+        //                 payload: {
+        //                     frequency: frequency,
+        //                     freqCount: freqCount,
+        //                     quantity: goalTime,
+        //                     description: description,
+        //                     category: "sleep",
+        //                     categoryObj: {
+        //                         measurement: "hours"
+        //                     }
+        //                 }
+        //             }
+        //         }
+        //     }
+        // },
+        // addDietGoal: {
+        //     reducer(state, action) {
+        //         state.goals.push(action.payload)
+        //     },
+        //     prepare(frequency, freqCount, goalMeals, description) {
+        //         if (frequency === 'daily') {
+        //             return {
+        //                 payload: {
+        //                     frequency: frequency,
+        //                     freqCount: freqCount,
+        //                     quantity: goalTime,
+        //                     description: description,
+        //                     category: "diet",
+        //                     categoryObj: {
+        //                         measurement: "meals"
+        //                     }
+        //                 }
+        //             }
+        //         } else {
+        //             return {
+        //                 payload: {
+        //                     frequency: frequency,
+        //                     freqCount: freqCount,
+        //                     quantity: goalTime,
+        //                     description: description,
+        //                     category: "diet",
+        //                     categoryObj: {
+        //                         measurement: "meals"
+        //                     }
+        //                 }
+        //             }
+        //         }
+        //     }
+        // },
         addMiscGoal: {
             reducer(state, action) {
-                state.goals.misc.push(action.payload)
+                state.goals.push(action.payload)
             },
             prepare(description) {
                 return {
                     payload: {
-                        description
+                        description,
+                        category: "misc"
                     }
                 }
             }
         },
-
     }
 });
   
-export const { addExerciseGoal, addSleepGoal, addDietGoal, addMiscGoal } = goalSlice.actions
+export const { addGoal, /*addExerciseGoal, addSleepGoal, addDietGoal,*/ addMiscGoal } = goalSlice.actions
 
 // The function below is called a selector and allows us to select a value from
 // the state. Selectors can also be defined inline where they're used instead of

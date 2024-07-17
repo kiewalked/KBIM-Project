@@ -24,27 +24,145 @@ Think I figured it out:
 export const dateSlice = createSlice({
     name: 'date',
     initialState: {
-      history: {
+      history: { 
         "2023-04-20": {
-            "diet": [], 
-            "exercises": [
+            // running total: light exercise, moderate exercise, vigorous exercise, sleep hours, vapes, cigarettes, alcohol
+            diet: [], 
+            exercises: [
                 {
-                    "intensity": "light", 
-                    "time": 60, 
-                    "title": "Walking"
+                    intensity: "light", 
+                    time: 60, 
+                    title: "Walking"
                 }, 
                 {
-                    "intensity": "vigorous", 
-                    "time": 120, 
-                    "title": "Volleyball"
+                    intensity: "vigorous", 
+                    time: 120, 
+                    title: "Volleyball"
                 }
             ], 
-            "sleep": {
-                "quality": "Decent", 
-                "time": 8
-            }
+            sleep: {
+                quality: "okay", 
+                time: 8
+            },
+            smoking: {
+                regular: 2,
+                vape: 1
+            },
+            alcohol: {
+                standards: 2
+            },
+            water: 0,
+        },
+        "2023-04-21": {
+            diet: [], 
+            exercises: [
+                {
+                    intensity: "light", 
+                    time: 60, 
+                    title: "Walking"
+                }, 
+                {
+                    intensity: "vigorous", 
+                    time: 120, 
+                    title: "Volleyball"
+                }
+            ], 
+            sleep: {
+                quality: "okay", 
+                time: 8
+            },
+            smoking: {
+                regular: 2,
+                vape: 1
+            },
+            alcohol: {
+                standards: 2
+            },
+            water: 0,
+        },
+        "2023-04-22": {
+            diet: [], 
+            exercises: [
+                {
+                    intensity: "light", 
+                    time: 60, 
+                    title: "Walking"
+                }, 
+                {
+                    intensity: "vigorous", 
+                    time: 120, 
+                    title: "Volleyball"
+                }
+            ], 
+            sleep: {
+                quality: "okay", 
+                time: 8
+            },
+            smoking: {
+                regular: 2,
+                vape: 1
+            },
+            alcohol: {
+                standards: 2
+            },
+            water: 0
+        },
+        "2023-05-03": {
+            diet: [], 
+            exercises: [
+                {
+                    intensity: "light", 
+                    time: 60, 
+                    title: "Walking"
+                }, 
+                {
+                    intensity: "vigorous", 
+                    time: 120, 
+                    title: "Volleyball"
+                }
+            ], 
+            sleep: {
+                quality: "okay", 
+                time: 8
+            },
+            smoking: {
+                regular: 2,
+                vape: 1
+            },
+            alcohol: {
+                standards: 2
+            },
+            water: 0
+        },
+        "2023-06-12": {
+            diet: [], 
+            exercises: [
+                {
+                    intensity: "light", 
+                    time: 60, 
+                    title: "Walking"
+                }, 
+                {
+                    intensity: "vigorous", 
+                    time: 120, 
+                    title: "Volleyball"
+                }
+            ], 
+            sleep: {
+                quality: "okay", 
+                time: 8
+            },
+            smoking: {
+                regular: 2,
+                vape: 1
+            },
+            alcohol: {
+                standards: 2
+            },
+            water: 0
         }
-      }
+
+      },
       /* 
         history: {
             date (yyyy-mm-dd): {
@@ -75,8 +193,19 @@ export const dateSlice = createSlice({
                 if (state.history[date] === undefined) {
                     state.history[date] = {
                         exercises: [],
-                        sleep: {},
-                        diet: []
+                        diet: [],
+                        sleep: {
+                            quality: "Decent", 
+                            time: 0
+                        },
+                        smoking: {
+                            regular: 0,
+                            vape: 0
+                        },
+                        alcohol: {
+                            standards: 0
+                        },
+                        water: 0,
                     }
                 }
                 console.log("date verified");
@@ -156,6 +285,42 @@ export const dateSlice = createSlice({
                 }
             }
         },
+        addSmoking: {
+            reducer(state, action) {
+                const { date, smokingObj } = action.payload;
+                const dailyHealth = state.history[date];
+                if (dailyHealth != undefined) {
+                    dailyHealth.smoking = smokingObj;
+                }
+            },
+            prepare(date, smokingObj) {
+                return {
+                    payload: {
+                        date,
+                        smokingObj
+                    }
+                }
+            }
+        },
+        addAlcohol: {
+            reducer(state, action) {
+                const { date, alcoholObj } = action.payload;
+                const dailyHealth = state.history[date];
+                // const dailyHealth = state.history.find(day => day.date === date);
+                if (dailyHealth != undefined) {
+                    dailyHealth.alcohol = alcoholObj;
+                }
+            },
+            prepare(date, alcoholObj) {
+                return {
+                    payload: {
+                        date,
+                        alcoholObj
+                    }
+                }
+            }
+        },
+
 
         // addSleep: {
         //     reducer(state, action) {
@@ -178,7 +343,7 @@ export const dateSlice = createSlice({
     },
 });
   
-export const { verifyDateExists, addExercise, addPicture, addSleep } = dateSlice.actions
+export const { verifyDateExists, addExercise, addPicture, addSleep, addSmoking, addAlcohol } = dateSlice.actions
 
 // The function below is called a selector and allows us to select a value from
 // the state. Selectors can also be defined inline where they're used instead of

@@ -13,15 +13,66 @@ import {
   useColorScheme,
 } from 'react-native';
 
+import { Text } from 'native-base'
+
 import Root from './src/RootComponent';
 
-import { NativeBaseProvider, Container, Center } from 'native-base';
+import { NativeBaseProvider, Container, Center, extendTheme } from 'native-base';
 
 import {
   Colors,
 } from 'react-native/Libraries/NewAppScreen';
 import { Provider } from 'react-redux';
 import { store } from './src/redux/store';
+import setDefaultProps from 'react-native-simple-default-props'
+
+
+const theme = extendTheme({
+  fontConfig: {
+    Montserrat: {
+      100: {
+        normal: "Montserrat-Regular",
+        italic: "Montserrat-Italic",
+      },
+      200: {
+        normal: "Montserrat-Regular",
+        italic: "Montserrat-Italic",
+      },
+      300: {
+        normal: "Montserrat-Regular",
+        italic: "Montserrat-Italic",
+      },
+      // 400: {
+      //   normal: "Roboto-Regular",
+      //   italic: "Roboto-Italic",
+      // },
+      // 500: {
+      //   normal: "Roboto-Medium",
+      // },
+      600: {
+        normal: "Montserrat-Bold",
+        italic: "Montserrat-Italic",
+      },
+    },
+  },
+
+  // Make sure values below matches any of the keys in `fontConfig`
+  fonts: {
+    heading: "Montserrat",
+    body: "Montserrat",
+    mono: "Montserrat",
+  },
+});
+
+
+const defaultText = {
+  style: [{fontFamily: 'Montserrat'}],
+};
+
+// usage
+setDefaultProps(Text, defaultText);
+
+
 
 function App(): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
@@ -29,10 +80,11 @@ function App(): JSX.Element {
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
+  
   // Structure heavily inspired by native-base kitchen sink
   return (
     <Provider store={store}>
-      <NativeBaseProvider>
+      <NativeBaseProvider theme={theme}>
         <Root />
       </NativeBaseProvider>
     </Provider>

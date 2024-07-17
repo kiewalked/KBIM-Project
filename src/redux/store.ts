@@ -5,6 +5,7 @@ import exerciseReducer from './exerciseSlice'
 import dateReducer from './dateSlice'
 import authReducer from './authSlice'
 import goalReducer from './goalSlice'
+import notificationReducer from './notificationSlice'
 
 
 export const store = configureStore({
@@ -15,6 +16,7 @@ export const store = configureStore({
     dailyHealth: dateReducer,
     auth: authReducer,
     goal: goalReducer,
+    notifications: notificationReducer,
   },
 });
 

@@ -10,7 +10,6 @@ import HomeScreen from './screens/Home'
 import DailyHealthScreen from './screens/Daily Health/index'
 import PhysicalActivityScreen from './screens/Daily Health/exercise/PhysicalActivity'
 import DietScreen from './screens/Daily Health/diet/Diet'
-import SleepScreen from './screens/Daily Health/sleep/Sleep'
 import MediaScreen from './screens/Daily Health/diet/Media'
 import GoalsScreen from './screens/Goals'
 import LoginScreen from './screens/Login'
@@ -30,7 +29,6 @@ import CameraScreen from './screens/Daily Health/diet/Camera';
 
 
 import type { Routes } from './Routes'
-import SleepInputScreen from './screens/Daily Health/sleep/SleepInput';
 import StatisticsScreen from './screens/Statistics';
 import HistoryScreen from './screens/History';
 import NotificationSettingsScreen from './screens/More/Settings/NotificationSettings';
@@ -52,8 +50,6 @@ const Root = () => {
                         <Stack.Screen name='DailyHealth' component={DailyHealthScreen} />
                         <Stack.Screen name='PhysicalActivity' component={PhysicalActivityScreen} />
                         <Stack.Screen name='Diet' component={DietScreen} />
-                        <Stack.Screen name='Sleep' component={SleepScreen} />
-                        <Stack.Screen name='SleepInput' component={SleepInputScreen} />
                         <Stack.Screen name='Goals' component={GoalsScreen} />
                         <Stack.Screen name='Settings' component={SettingsScreen} />
                         <Stack.Screen name='Exercise' component={ExerciseAdditionScreen} />
